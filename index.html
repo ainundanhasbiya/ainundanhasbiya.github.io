@@ -92,11 +92,20 @@
 
         #btn-invit {
             position: absolute;
-            bottom: 50px;
+            bottom: 40px;
             /* Sesuaikan dengan jarak dari bawah yang diinginkan */
             left: 50%;
             transform: translateX(-50%);
             z-index: 1;
+        }
+
+        #guest {
+            position: absolute;
+            bottom: 70px;
+            /* Sesuaikan dengan jarak dari bawah yang diinginkan */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
         }
 
         .button-up {
@@ -169,6 +178,14 @@
             top: 10px;
             transform: rotate(225deg);
         }
+
+        #guest {
+            text-align: center;
+        }
+
+        #guest-name {
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -177,6 +194,11 @@
     <div class="button-down"></div>
     <div class="full-page-image">
         <img src="0.jpeg" alt="cover" id="image-bg">
+        <div id="guest">
+            <span>Kepada</span>
+            <br>
+            <span id="guest-name">Ahmad Luthfi Nasrulloh</span>
+        </div>
         <button id="btn-invit">Buka Undangan</button>
     </div>
 
@@ -193,12 +215,13 @@
                 audioElement.play();
                 index += 1;
                 $(this).hide();
+                $('#guest').hide();
                 $('.button-up').show();
                 $('.button-down').show();
-                $('#image-bg').fadeOut(500, function() {
+                $('#image-bg').fadeOut(700, function() {
                     $('#image-bg').css('display', 'none');
                     $('#image-bg').attr('src', '1.jpeg');
-                    $('#image-bg').fadeIn(500);
+                    $('#image-bg').fadeIn(700);
                 });
             });
             $('.button-up').on('click', function() {
@@ -208,20 +231,23 @@
                     $('#btn-invit').show();
                     $(this).hide();
                     $('.button-down').hide();
+                    $('#guest').show();
                 } else {
                     $('#btn-invit').hide();
                     $(this).show();
                     $('.button-down').show();
+                    $('#guest').hide();
                 }
-                $('#image-bg').fadeOut(500, function() {
+                $('#image-bg').fadeOut(700, function() {
                     $('#image-bg').css('display', 'none');
                     $('#image-bg').attr('src', `${index}.jpeg`);
-                    $('#image-bg').fadeIn(500);
+                    $('#image-bg').fadeIn(700);
                 });
             });
             $('.button-down').on('click', function() {
                 console.log('kuyy ahh');
                 index += 1;
+                $('#guest').hide();
                 if (index == 8) {
                     $('.button-up').show();
                     $(this).hide();
@@ -229,12 +255,18 @@
                     $('.button-up').show();
                     $(this).show();
                 }
-                $('#image-bg').fadeOut(500, function() {
+                $('#image-bg').fadeOut(700, function() {
                     $('#image-bg').css('display', 'none');
                     $('#image-bg').attr('src', `${index}.jpeg`);
-                    $('#image-bg').fadeIn(500);
+                    $('#image-bg').fadeIn(700);
                 });
             });
+
+            const urlParams = new URLSearchParams(window.location.search);
+
+            const nama = urlParams.get('to');
+            $('#guest-name').text(nama);
+            console.log('Nama:', nama); // Output: Nama: John
 
             // let startY;
 
@@ -261,10 +293,10 @@
             //                     $('.button-down').show();
             //                 }
             //             }
-            //             $('#image-bg').fadeOut(500, function() {
+            //             $('#image-bg').fadeOut(700, function() {
             //                 $('#image-bg').css('display', 'none');
             //                 $('#image-bg').attr('src', `${index}.jpeg`);
-            //                 $('#image-bg').fadeIn(500);
+            //                 $('#image-bg').fadeIn(700);
             //             });
             //         } else {
             //             index -= 1;
@@ -281,10 +313,10 @@
             //                 $('.button-up').show();
             //                 $('.button-down').show();
             //             }
-            //             $('#image-bg').fadeOut(500, function() {
+            //             $('#image-bg').fadeOut(700, function() {
             //                 $('#image-bg').css('display', 'none');
             //                 $('#image-bg').attr('src', `${index}.jpeg`);
-            //                 $('#image-bg').fadeIn(500);
+            //                 $('#image-bg').fadeIn(700);
             //             });
             //         } else {
             //             index += 1;
