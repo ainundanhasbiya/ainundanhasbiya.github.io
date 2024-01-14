@@ -89,62 +89,208 @@
             -ms-transform: translateY(-50%);
             transform: translateY(-50%);
         }
+
+        #btn-invit {
+            position: absolute;
+            bottom: 50px;
+            /* Sesuaikan dengan jarak dari bawah yang diinginkan */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .button-up {
+            /* position: relative; */
+            padding: 5px;
+            margin: 30px auto;
+            background: #000;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            transition: all 0.2s linear;
+
+            position: absolute;
+            bottom: 75px;
+            /* Sesuaikan dengan jarak dari bawah yang diinginkan */
+            left: 80%;
+            /* transform: translateX(-50%); */
+            z-index: 1;
+            /* pointer-events: none; */
+            /* Tambahkan baris ini */
+        }
+
+        .button-down {
+            /* position: relative; */
+            padding: 5px;
+            margin: 30px auto;
+            background: #000;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            transition: all 0.2s linear;
+
+            position: absolute;
+            bottom: 5px;
+            /* Sesuaikan dengan jarak dari bawah yang diinginkan */
+            left: 80%;
+            /* transform: translateX(-50%); */
+            z-index: 1;
+            /* pointer-events: none; */
+            /* Tambahkan baris ini */
+        }
+
+        .button-down:hover {
+            transform: translate3d(0, 10px, 0);
+        }
+
+        .button-up:hover {
+            transform: translate3d(0, -10px, 0);
+        }
+
+        .button-up::after,
+        .button-down::after {
+            content: "";
+            position: absolute;
+            left: 17px;
+            z-index: 1;
+            display: block;
+            width: 25px;
+            height: 25px;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+        }
+
+        .button-up::after {
+            top: 20px;
+            transform: rotate(45deg);
+        }
+
+        .button-down::after {
+            top: 10px;
+            transform: rotate(225deg);
+        }
     </style>
 </head>
 
 <body style="background-color: #DABAE4;">
+    <div class="button-up"></div>
+    <div class="button-down"></div>
     <div class="full-page-image">
         <img src="0.jpeg" alt="cover" id="image-bg">
+        <button id="btn-invit">Buka Undangan</button>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#home').on('click', function() {
-                $('#image-bg').attr('src', 'cover.jpeg');
-            });
-            $('#greeting').on('click', function() {
+            let index = 0;
+            var audioElement = document.createElement('audio');
+            audioElement.setAttribute('src', 'Ikat Aku Di Tulang Belikatmu.mp3');
+            $('.button-up').hide();
+            $('.button-down').hide();
+
+            $('#btn-invit').on('click', function() {
+                audioElement.play();
+                index += 1;
+                $(this).hide();
+                $('.button-up').show();
+                $('.button-down').show();
                 $('#image-bg').fadeOut(500, function() {
                     $('#image-bg').css('display', 'none');
                     $('#image-bg').attr('src', '1.jpeg');
                     $('#image-bg').fadeIn(500);
                 });
             });
-
-            let startY;
-            let index = 0;
-
-            $('body').on('touchstart', function(e) {
-                startY = e.originalEvent.touches[0].pageY;
-            });
-
-            $('body').on('touchend', function(e) {
-                let deltaY = e.originalEvent.changedTouches[0].pageY - startY;
-
-                if (deltaY < -50) {
-                    index += 1;
-                    if (index < 9) {
-                        $('#image-bg').fadeOut(500, function() {
-                            $('#image-bg').css('display', 'none');
-                            $('#image-bg').attr('src', `${index}.jpeg`);
-                            $('#image-bg').fadeIn(500);
-                        });
-                    } else {
-                        index -= 1;
-                    }
-                } else if (deltaY > 50) {
-                    index -= 1;
-                    if (index >= 0) {
-                        $('#image-bg').fadeOut(500, function() {
-                            $('#image-bg').css('display', 'none');
-                            $('#image-bg').attr('src', `${index}.jpeg`);
-                            $('#image-bg').fadeIn(500);
-                        });
-                    } else {
-                        index += 1;
-                    }
+            $('.button-up').on('click', function() {
+                console.log('kuyy yuk');
+                index -= 1;
+                if (index == 0) {
+                    $('#btn-invit').show();
+                    $(this).hide();
+                    $('.button-down').hide();
+                } else {
+                    $('#btn-invit').hide();
+                    $(this).show();
+                    $('.button-down').show();
                 }
+                $('#image-bg').fadeOut(500, function() {
+                    $('#image-bg').css('display', 'none');
+                    $('#image-bg').attr('src', `${index}.jpeg`);
+                    $('#image-bg').fadeIn(500);
+                });
             });
+            $('.button-down').on('click', function() {
+                console.log('kuyy ahh');
+                index += 1;
+                if (index == 8) {
+                    $('.button-up').show();
+                    $(this).hide();
+                } else {
+                    $('.button-up').show();
+                    $(this).show();
+                }
+                $('#image-bg').fadeOut(500, function() {
+                    $('#image-bg').css('display', 'none');
+                    $('#image-bg').attr('src', `${index}.jpeg`);
+                    $('#image-bg').fadeIn(500);
+                });
+            });
+
+            // let startY;
+
+
+            // $('body').on('touchstart', function(e) {
+            //     startY = e.originalEvent.touches[0].pageY;
+            // });
+
+            // $('body').on('touchend', function(e) {
+            //     let deltaY = e.originalEvent.changedTouches[0].pageY - startY;
+
+            //     if (deltaY < -50) {
+            //         index += 1;
+            //         if (index < 9) {
+            //             if (index == 0) {
+            //                 $('#btn-invit').show();
+            //             } else {
+            //                 $('#btn-invit').hide();
+            //                 if (index == 8) {
+            //                     $('.button-up').show();
+            //                     $('.button-down').hide();
+            //                 } else {
+            //                     $('.button-up').show();
+            //                     $('.button-down').show();
+            //                 }
+            //             }
+            //             $('#image-bg').fadeOut(500, function() {
+            //                 $('#image-bg').css('display', 'none');
+            //                 $('#image-bg').attr('src', `${index}.jpeg`);
+            //                 $('#image-bg').fadeIn(500);
+            //             });
+            //         } else {
+            //             index -= 1;
+            //         }
+            //     } else if (deltaY > 50) {
+            //         index -= 1;
+            //         if (index >= 0) {
+            //             if (index == 0) {
+            //                 $('#btn-invit').show();
+            //                 $('.button-up').hide();
+            //                 $('.button-down').hide();
+            //             } else {
+            //                 $('#btn-invit').hide();
+            //                 $('.button-up').show();
+            //                 $('.button-down').show();
+            //             }
+            //             $('#image-bg').fadeOut(500, function() {
+            //                 $('#image-bg').css('display', 'none');
+            //                 $('#image-bg').attr('src', `${index}.jpeg`);
+            //                 $('#image-bg').fadeIn(500);
+            //             });
+            //         } else {
+            //             index += 1;
+            //         }
+            //     }
+            // });
 
         });
     </script>
